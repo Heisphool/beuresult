@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>BEU Result Official - Enhanced Portal</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <meta name="description" content="Direct link to check BEU Result 2025 & 2024 for B.Tech, M.Tech, & Pharmacy. Fast server, no backend required.">
+    <meta name="author" content="Phool Babu">
+    <meta name="theme-color" content="#4f46e5">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        beu: { blue: '#0f172a', accent: '#3b82f6', dark: '#020617' }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'fade-in': 'fadeIn 0.3s ease-in',
+                    },
+                    keyframes: {
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-dark {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #f8fafc;
+        }
+        .input-dark:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+        
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .theme-light {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+        }
+        .theme-light .glass-panel { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(0, 0, 0, 0.1); }
+        .theme-light .input-dark { background: #ffffff; border: 1px solid #cbd5e1; color: #0f172a; }
+        .theme-light .text-slate-400, .theme-light .text-slate-500 { color: #64748b; }
+        .theme-light .text-slate-600 { color: #475569; }
+        .theme-light .bg-slate-800 { background-color: #e2e8f0; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-animation { animation: float 3s ease-in-out infinite; }
+
+        /* Scoped Result View CSS to prevent Tailwind overrides */
+        #result-view-container { display: none; width: 100%; min-height: 100vh; background-color: #d3d3d3; color: #000; padding: 20px 0; font-family: Arial, sans-serif;}
+        #result-wrapper { max-width: 960px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative;}
+        .res-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        .res-table th, .res-table td { padding: 8px; border: 1px solid #A0A0A0; text-align: center; }
+        .res-table th { background-color: #f8f9fa; font-weight: bold; }
+        .res-table-left td, .res-table-left th { text-align: left; }
+        .res-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-25deg); width: 450px; height: 450px; border: 10px solid #e0e0e0; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 0; opacity: 0.1; pointer-events: none; font-size: 70px; font-weight: 900; font-family: 'Arial Black', sans-serif; text-align: center; line-height: 1.1; }
+        .res-content { position: relative; z-index: 10; }
+        .btn-action { padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; transition: opacity 0.2s;}
+        .btn-action:hover { opacity: 0.9; }
+
+        /* Flex Card (Hidden by default) */
+        #flex-card-container { position: fixed; left: -9999px; top: 0; width: 1080px; height: 1920px; z-index: 9999; }
+        .flex-card { width: 100%; height: 100%; background: radial-gradient(circle at top right, #1e293b, #0f172a); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 80px 40px; box-sizing: border-box; color: white; font-family: 'Segoe UI', sans-serif; border: 20px solid #334155; }
+        .flex-title { font-size: 40px; letter-spacing: 5px; text-transform: uppercase; color: #94a3b8; font-weight: bold; margin-bottom: 20px; text-align: center;}
+        .flex-college { font-size: 50px; font-weight: bold; text-align: center; line-height: 1.2; margin-bottom: 10px; }
+        .flex-score-box { position: relative; width: 600px; height: 600px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 8px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 40px 0; box-shadow: 0 0 100px rgba(59, 130, 246, 0.2); }
+        .flex-sgpa-label { font-size: 40px; color: #94a3b8; text-transform: uppercase; letter-spacing: 3px; }
+        .flex-sgpa-value { font-size: 220px; font-weight: 900; line-height: 1; color: #fff; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .flex-status { font-size: 60px; font-weight: bold; margin-top: 20px; padding: 10px 40px; border-radius: 20px; text-transform: uppercase; }
+        .flex-name { font-size: 70px; font-weight: bold; margin-bottom: 20px; color: #f8fafc; text-align: center;}
+        .flex-sem { font-size: 45px; color: #cbd5e1; text-align: center;}
+        .flex-reg { font-size: 35px; color: #64748b; margin-top: 10px; font-family: monospace; text-align: center;}
+        .flex-footer { text-align: center; border-top: 2px solid #334155; width: 100%; padding-top: 40px; }
+        
+        #error-message { display: none; background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; text-align: center; font-weight: 500;}
+
+        /* Print Specific Styles for A4 Single Page */
+        @media print {
+            @page { size: A4 portrait; margin: 10mm; }
+            body { background: #fff !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; }
+            body * { visibility: hidden; }
+            #printarea, #printarea * { visibility: visible; }
+            #printarea { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                margin: 0; 
+                padding: 0 !important; 
+                min-height: auto !important;
+                background: white !important;
+            }
+            /* Compress tables to guarantee 1-page fit */
+            .res-table { margin-bottom: 8px !important; }
+            .res-table th, .res-table td { padding: 4px !important; font-size: 11px !important; }
+            .res-watermark { opacity: 0.05 !important; width: 350px !important; height: 350px !important; }
+            #lbl-exam-title { font-size: 14px !important; }
+            .res-content p { font-size: 18px !important; margin-bottom: 5px !important; }
+            h4, ul { font-size: 10px !important; margin-bottom: 2px !important; }
+            /* Force hide UI buttons and containers */
+            .no-print, #themeToggle, #cgpaCalcBtn, #search-view, #flex-card-container { display: none !important; }
+            #result-wrapper { box-shadow: none !important; padding: 0 !important; margin: 0 !important; border: none !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-center items-center selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
+
+    <button id="themeToggle" class="fixed top-4 right-4 z-50 w-12 h-12 rounded-full glass-panel flex items-center justify-center hover:scale-110 transition-transform text-white">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <button id="cgpaCalcBtn" class="fixed top-4 left-4 z-50 px-4 py-2 rounded-full glass-panel flex items-center gap-2 hover:scale-105 transition-transform text-sm font-bold text-white">
+        <i class="fas fa-calculator text-purple-400"></i>
+        <span class="hidden sm:inline">CGPA Calc</span>
+    </button>
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: SEARCH PORTAL -->
+    <!-- ========================================== -->
+    <div id="search-view" class="w-full max-w-6xl z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-4 py-12 relative">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[128px] opacity-20 animate-pulse-slow pointer-events-none"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600 rounded-full mix-blend-screen filter blur-[128px] opacity-20 animate-pulse-slow pointer-events-none" style="animation-delay: 1.5s"></div>
+
+        <div class="hidden lg:block space-y-8 relative z-10">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/50 border border-blue-500/30 text-blue-300 text-xs font-bold uppercase tracking-widest mb-4">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    Live University Data
+                </div>
+                <h1 class="text-6xl font-display font-bold leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                    BEU RESULT <br>
+                    <span class="text-white">CHECKER.</span>
+                </h1>
+                <p class="text-slate-400 text-lg mt-4 max-w-md leading-relaxed">
+                   Check Your University Semester Result with 100% Accuracy directly from the source. No backend required.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-8">
+                <div class="glass-panel p-5 rounded-xl border-l-4 border-blue-500 hover:bg-slate-800/80 transition-colors cursor-pointer float-animation">
+                    <i class="fas fa-bolt text-2xl text-blue-400 mb-2"></i>
+                    <h3 class="text-2xl font-bold text-white">Direct</h3>
+                    <p class="text-xs text-slate-400 uppercase tracking-wide">University Link</p>
+                </div>
+                <div class="glass-panel p-5 rounded-xl border-l-4 border-purple-500 hover:bg-slate-800/80 transition-colors cursor-pointer float-animation" style="animation-delay: 0.5s">
+                    <i class="fas fa-shield-alt text-2xl text-purple-400 mb-2"></i>
+                    <h3 class="text-2xl font-bold text-white">Secure</h3>
+                    <p class="text-xs text-slate-400 uppercase tracking-wide">Client-Side Process</p>
+                </div>
+            </div>
+
+            <div id="recentSearches" class="hidden glass-panel rounded-xl p-5 animate-slide-up">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-bold text-slate-300 flex items-center gap-2">
+                        <i class="fas fa-history text-blue-400"></i> Recent Searches
+                    </h3>
+                    <button id="clearHistory" class="text-xs text-red-400 hover:text-red-300">Clear</button>
+                </div>
+                <div id="recentList" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <div class="w-full max-w-md mx-auto relative z-10">
+            <div class="lg:hidden text-center mb-8 mt-12">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg shadow-blue-500/30 mb-4 float-animation">
+                    <i class="fas fa-graduation-cap text-3xl text-white"></i>
+                </div>
+                <h1 class="text-3xl font-display font-bold">Result Portal</h1>
+                <p class="text-slate-400 text-sm">Bihar Engineering University</p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500"></div>
+                
+                <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                    <i class="fas fa-search text-blue-400"></i> Search Result
+                </h2>
+
+                <form class="space-y-5" id="resultForm">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Semester</label>
+                        <div class="relative group">
+                            <select id="semester" required class="input-dark w-full px-4 py-3.5 rounded-lg appearance-none focus:outline-none transition-all cursor-pointer font-medium">
+                                <option value="" disabled selected>Select Active Semester</option>
+                                <option value="1">Semester 01</option>
+                                <option value="2">Semester 02</option>
+                                <option value="3">Semester 03</option>
+                                <option value="4">Semester 04</option>
+                                <option value="5">Semester 05</option>
+                                <option value="6">Semester 06</option>
+                                <option value="7">Semester 07</option>
+                                <option value="8">Semester 08</option>
+                            </select>
+                            <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-blue-400 transition-colors"></i>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Registration No.</label>
+                        <div class="relative group">
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" id="RegNo" required placeholder="Enter University Reg No" class="input-dark w-full px-4 py-3.5 rounded-lg focus:outline-none transition-all font-medium placeholder:text-slate-600 tracking-wider">
+                            <i class="fas fa-fingerprint absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-blue-400 transition-colors"></i>
+                        </div>
+                    </div>
+
+                    <div id="lateralBadge" class="hidden bg-purple-900/30 border border-purple-500/30 rounded-lg p-3 animate-slide-up">
+                        <div class="flex items-center gap-2 text-purple-300 text-sm">
+                            <i class="fas fa-info-circle"></i><span class="font-bold">Lateral Entry Detected</span>
+                        </div>
+                        <p class="text-xs text-purple-400 mt-1">Please confirm your batch year below</p>
+                    </div>
+
+                    <div id="batchContainer" class="hidden">
+                        <label class="flex justify-between text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                            Batch Year <span class="text-[10px] text-slate-600 bg-slate-800 px-1.5 py-0.5 rounded">LATERAL</span>
+                        </label>
+                        <div class="relative group">
+                            <input type="number" id="batch" placeholder="YYYY (e.g. 2022)" min="2015" max="2030" class="input-dark w-full px-4 py-3.5 rounded-lg focus:outline-none transition-all font-medium placeholder:text-slate-600">
+                            <i class="fas fa-calendar-alt absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-blue-400 transition-colors"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 pt-2">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="is_yb" value="1" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            <span class="ml-3 text-sm font-bold text-slate-300">Year Back (YB) Student</span>
+                        </label>
+                    </div>
+
+                    <div id="error-message"></div>
+
+                    <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-lg shadow-lg shadow-blue-600/30 active:translate-y-0.5 transition-all flex items-center justify-center gap-3 group mt-4">
+                        <span class="uppercase tracking-wider text-sm" id="btnText">Fetch Scorecard</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform" id="btnIcon"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: RESULT RENDER (Classic View)       -->
+    <!-- ========================================== -->
+    <div id="result-view-container">
+        <div id="result-wrapper">
+            <div class="flex flex-wrap justify-between items-center gap-4 mb-6 pb-4 border-b border-gray-300 no-print">
+                <div class="flex gap-2">
+                    <button type="button" class="btn-action bg-green-600 hover:bg-green-700" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button type="button" class="btn-action bg-blue-600 hover:bg-blue-700" onclick="shareFlexCard()">
+                        <i class="fas fa-share-alt"></i> Share Status
+                    </button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="button" onclick="searchAdjacentResult(-1)" class="btn-action bg-slate-600 hover:bg-slate-700 text-xs px-3 py-2" title="Previous Reg No">
+                        <i class="fas fa-chevron-left"></i> Prev
+                    </button>
+                    <button type="button" onclick="searchAdjacentResult(1)" class="btn-action bg-slate-600 hover:bg-slate-700 text-xs px-3 py-2" title="Next Reg No">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="w-px h-6 bg-gray-400 mx-1"></div>
+                    <span id="downloadStatus" style="display:none; color:#2563eb; font-weight:bold;">Processing...</span>
+                    <button onclick="goBackToSearch()" class="text-blue-600 font-bold hover:underline cursor-pointer bg-transparent border-none flex items-center gap-2">
+                        <i class="fas fa-search"></i> New Search
+                    </button>
+                </div>
+            </div>
+
+            <!-- Print Area -->
+            <div id="printarea" style="position:relative; min-height: 800px; padding: 20px; background: white;">
+                <div class="res-watermark"><div>BEU<br>HUB</div></div>
+                
+                <div class="res-content">
+                    <table style="width:100%; border:none; margin-bottom: 10px;">
+                        <tr><td><p style="text-transform:uppercase;text-align:center; font-weight:bold; font-size: 24px; margin:0;">Bihar Engineering University, Patna</p></td></tr>
+                        <tr><td style="text-align:center"><span style="color:Red;font-weight: 700; font-size:16px;" id="lbl-exam-title">B.Tech. -- Semester Examination, ----</span></td></tr>
+                    </table>
+
+                    <table class="res-table res-table-left">
+                        <tr>
+                            <td width="150"><strong>Semester : </strong></td><td id="lbl-sem-roman"></td>
+                            <td width="200"><strong>Examination(Month/Year) : </strong></td><td id="lbl-exam-month"></td>
+                        </tr>
+                    </table>
+
+                    <table class="res-table res-table-left">
+                        <tr><td width="150"><b>Registration No:</b></td><td colspan="3"><span style="font-weight: 700" id="lbl-reg"></span></td></tr>
+                        <tr><td><b>Student Name:</b></td><td colspan="3"><span style="font-weight: 700" id="lbl-name"></span></td></tr>
+                        <tr><td><b>Father Name:</b></td><td id="lbl-father"></td><td width="150"><strong>Mother Name:</strong></td><td id="lbl-mother"></td></tr>
+                        <tr><td><b>College Name:</b></td><td colspan="3" id="lbl-college"></td></tr>
+                        <tr><td><b>Course Name:</b></td><td colspan="3" id="lbl-course"></td></tr>
+                    </table>
+
+                    <div id="theory-container" style="display: none; margin-top: 15px;">
+                        <table class="res-table">
+                            <caption style="text-align:left; font-weight:bold; margin-bottom:5px;">THEORY</caption>
+                            <thead><tr><th>Subject Code</th><th>Subject Name</th><th>ESE</th><th>IA</th><th>Total</th><th>Grade</th><th>Credit</th></tr></thead>
+                            <tbody id="theory-tbody"></tbody>
+                        </table>
+                    </div>
+
+                    <div id="practical-container" style="display: none; margin-top: 15px;">
+                        <table class="res-table">
+                            <caption style="text-align:left; font-weight:bold; margin-bottom:5px;">PRACTICAL</caption>
+                            <thead><tr><th>Subject Code</th><th>Subject Name</th><th>ESE</th><th>IA</th><th>Total</th><th>Grade</th><th>Credit</th></tr></thead>
+                            <tbody id="practical-tbody"></tbody>
+                        </table>
+                    </div>
+
+                    <table class="res-table res-table-left" style="margin-top:15px;">
+                        <tr><td><strong>SGPA : </strong><span style="font-weight: 700; font-size:16px;" id="lbl-sgpa"></span></td></tr>
+                    </table>
+
+                    <table class="res-table" style="margin-top:15px;">
+                        <tr>
+                            <td width="15%" style="text-align:left; vertical-align:middle;">
+                                <b>Semester:</b><br><br><b>SGPA:</b>
+                            </td>
+                            <td style="padding:0;">
+                                <table style="width:100%; border-collapse:collapse; text-align:center; height:100%;">
+                                    <tr id="sgpa-hist-header"></tr>
+                                    <tr id="sgpa-hist-values"></tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="res-table res-table-left" style="margin-top:15px;">
+                        <tr><td><strong>Remarks : </strong><span style="font-weight: 700" id="lbl-remarks"></span></td></tr>
+                        <tr><td><strong>Publish Date :</strong> <span id="lbl-publish"></span></td></tr>
+                    </table>
+
+                    <div style="margin-top:20px; font-size:12px;">
+                        <h4 style="font-weight:bold; margin-bottom:5px;">NOTE:</h4>
+                        <ul style="padding-left:20px; margin:0;">
+                            <li>ESE : End Semester Exam</li>
+                            <li>IA : Internal Assessment</li>
+                            <li>SGPA : Semester Grade Point Average</li>
+                            <li>CGPA : Cumulative Grade Point Average</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HIDDEN FLEX CARD FOR SHARING -->
+    <div id="flex-card-container">
+        <div class="flex-card" id="flexCardCapture">
+            <div class="flex-title">Result Declared</div>
+            <div class="flex-college" id="flex-college-name">College Name</div>
+            <div class="flex-score-box">
+                <div class="flex-sgpa-label">SGPA</div>
+                <div class="flex-sgpa-value" id="flex-sgpa">0.00</div>
+                <div class="flex-status" id="flex-status">PASS</div>
+            </div>
+            <div style="text-align: center; width: 100%;">
+                <div class="flex-name" id="flex-name">Student Name</div>
+                <div class="flex-sem" id="flex-sem">-- Semester</div>
+                <div class="flex-reg" id="flex-reg">Reg: ---</div>
+            </div>
+            <div class="flex-footer">
+                <div style="font-size: 40px; font-weight: bold; color: #3b82f6; letter-spacing: 2px;">BEU HUB</div>
+                <div style="font-size: 25px; color: #64748b; margin-top: 10px;">beuhub.site</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CGPA Calculator Modal -->
+    <div id="cgpaModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-panel rounded-2xl p-6 max-w-md w-full animate-slide-up relative">
+            <div class="flex items-center justify-between mb-4 text-white">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <i class="fas fa-calculator text-purple-400"></i> CGPA Calculator
+                </h3>
+                <button id="closeCgpa" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="space-y-3" id="cgpaInputs"></div>
+            <div class="mt-4 p-4 bg-blue-900/30 rounded-lg border border-blue-500/30">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-slate-300">Overall CGPA:</span>
+                    <span class="text-2xl font-bold text-blue-400" id="cgpaResult">0.00</span>
+                </div>
+            </div>
+            <button id="addSemBtn" class="mt-3 w-full py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm">
+                <i class="fas fa-plus mr-2"></i>Add Semester
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================================
+        // CONFIGURATION SECTION: EXAM SESSIONS (MONTH/YEAR)
+        // Add new batches/semesters here as exams are conducted.
+        // Format: "BatchYear_SemesterNumber": "Month/Year"
+        // ============================================================================
+        const EXAM_CONFIG = {
+            "2025_1": "January/2026",
+            "2024_1": "May/2025",
+            "2024_2": "November/2025",
+            "2023_1": "January/2026",
+            "2023_2": "November/2025",
+            "2023_3": "JULY/2025",
+            "2023_4": "December/2025",
+            "2022_5": "JULY/2025",
+            "2022_6": "November/2025",
+            "2022_7": "February/2026"
+        };
+        // ============================================================================
+
+        // Utility: Roman Numerals
+        const ROMAN_MAP = { 1:'I', 2:'II', 3:'III', 4:'IV', 5:'V', 6:'VI', 7:'VII', 8:'VIII' };
+        const ORDINAL_MAP = { 1:'1st', 2:'2nd', 3:'3rd', 4:'4th', 5:'5th', 6:'6th', 7:'7th', 8:'8th' };
+
+        // DOM Elements
+        const searchView = document.getElementById('search-view');
+        const resultView = document.getElementById('result-view-container');
+        const form = document.getElementById('resultForm');
+        const btn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnIcon = document.getElementById('btnIcon');
+        const errorMsg = document.getElementById('error-message');
+
+        // Form fields
+        const semInput = document.getElementById('semester');
+        const regInput = document.getElementById('RegNo');
+        const batchInput = document.getElementById('batch');
+        const isYbInput = document.getElementById('is_yb');
+        const lateralBadge = document.getElementById('lateralBadge');
+        const batchContainer = document.getElementById('batchContainer');
+
+        // Theme Handling
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const savedTheme = localStorage.getItem('beu_theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.body.classList.add('theme-light');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('theme-light');
+            const isLight = document.body.classList.contains('theme-light');
+            themeIcon.classList.replace(isLight ? 'fa-moon' : 'fa-sun', isLight ? 'fa-sun' : 'fa-moon');
+            localStorage.setItem('beu_theme', isLight ? 'light' : 'dark');
+        });
+
+        // Lateral Entry Detection
+        function checkLateralEntry() {
+            const val = regInput.value;
+            if (val.length >= 9 && val.charAt(8) === '9') {
+                batchContainer.classList.remove('hidden');
+                lateralBadge.classList.remove('hidden');
+            } else {
+                batchContainer.classList.add('hidden');
+                lateralBadge.classList.add('hidden');
+            }
+        }
+        regInput.addEventListener('input', checkLateralEntry);
+
+        // History Management
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('beu_history') || '[]');
+            const recentSearches = document.getElementById('recentSearches');
+            const recentList = document.getElementById('recentList');
+            
+            if (history.length > 0) {
+                recentSearches.classList.remove('hidden');
+                recentList.innerHTML = history.slice(0, 3).map(h => `
+                    <div class="flex items-center justify-between text-xs bg-slate-800/50 rounded p-2 hover:bg-slate-700/50 cursor-pointer text-white recent-item" data-regno="${h.regNo}" data-sem="${h.semester}">
+                        <span>${h.regNo} - Sem ${h.semester}</span>
+                        <span class="text-slate-400">${new Date(h.timestamp).toLocaleDateString()}</span>
+                    </div>
+                `).join('');
+            } else {
+                recentSearches.classList.add('hidden');
+            }
+        }
+        document.addEventListener('click', (e) => {
+            const item = e.target.closest('.recent-item');
+            if (item) {
+                regInput.value = item.dataset.regno;
+                semInput.value = item.dataset.sem;
+                checkLateralEntry();
+            }
+        });
+        document.getElementById('clearHistory').addEventListener('click', () => {
+            localStorage.removeItem('beu_history');
+            loadHistory();
+        });
+        loadHistory();
+
+        function saveHistory(reg, sem) {
+            const history = JSON.parse(localStorage.getItem('beu_history') || '[]');
+            const entry = { regNo: reg, semester: sem, timestamp: new Date().toISOString() };
+            history.unshift(entry);
+            localStorage.setItem('beu_history', JSON.stringify(history.slice(0, 10)));
+            loadHistory();
+        }
+
+        async function fetchResult(year, regNo, semRoman, examHeld) {
+            const baseUrl = "https://www.beu-bih.ac.in/backend/v1/result/get-result";
+            const params = new URLSearchParams({ year, redg_no: regNo, semester: semRoman, exam_held: examHeld });
+            const targetUrl = `${baseUrl}?${params.toString()}`;
+            
+            // Try direct connection first, then gracefully fall back to alternative routes
+            const routes = [
+                async () => {
+                    const res = await fetch(targetUrl);
+                    return await res.json();
+                },
+                async () => {
+                    const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`);
+                    return await res.json();
+                },
+                async () => {
+                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
+                    return await res.json();
+                },
+                async () => {
+                    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`);
+                    const data = await res.json();
+                    return JSON.parse(data.contents);
+                }
+            ];
+            
+            for (let i = 0; i < routes.length; i++) {
+                try {
+                    const json = await routes[i]();
+                    if (json) {
+                        // Check if the university returned valid data
+                        if (json.data && json.data.redg_no) {
+                            return { status: 'SUCCESS', data: json.data, session: examHeld };
+                        } else if (json.message && json.message.toLowerCase().includes("not found")) {
+                            return { status: 'NOT_FOUND_FOR_SESSION' };
+                        }
+                    }
+                } catch (err) {
+                    // Silently move to the next route if one fails
+                }
+            }
+            return { status: 'SERVER_BUSY' };
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            errorMsg.style.display = 'none';
+            btn.style.pointerEvents = 'none'; 
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btnText.textContent = 'Searching...';
+            btnIcon.classList.remove('fa-arrow-right', 'group-hover:translate-x-1');
+            btnIcon.classList.add('fa-circle-notch', 'fa-spin');
+
+            const regNo = regInput.value.trim();
+            const semester = parseInt(semInput.value);
+            const isYb = isYbInput.checked;
+            
+            // Derive API parameters
+            const apiYear = 2000 + parseInt(regNo.substring(0, 2)); 
+            let batchYear = apiYear;
+            
+            if (regNo.length >= 9 && regNo.charAt(8) === '9') {
+                batchYear = batchInput.value ? parseInt(batchInput.value) : apiYear - 1;
+            }
+
+            let lookupBatch = isYb ? batchYear + 1 : batchYear;
+            const configKey = `${lookupBatch}_${semester}`;
+            const semRoman = ROMAN_MAP[semester];
+            
+            const configuredSession = EXAM_CONFIG[configKey];
+            
+            const resetBtn = () => {
+                btn.style.pointerEvents = 'auto';
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btnText.textContent = 'Fetch Scorecard';
+                btnIcon.classList.add('fa-arrow-right', 'group-hover:translate-x-1');
+                btnIcon.classList.remove('fa-circle-notch', 'fa-spin');
+            };
+
+            if (!configuredSession) {
+                errorMsg.innerHTML = `<b>Configuration Missing:</b> Semester ${semester} data is not yet available.`;
+                errorMsg.style.display = 'block';
+                resetBtn();
+                return;
+            }
+
+            btnText.textContent = `Fetching Result...`;
+            const response = await fetchResult(apiYear, regNo, semRoman, configuredSession);
+            
+            if (response.status === 'SUCCESS') {
+                saveHistory(regNo, semester);
+                renderResultView(response.data, semester, response.session);
+            } else if (response.status === 'NOT_FOUND_FOR_SESSION') {
+                errorMsg.innerHTML = "<b>Result Not Found.</b> Please check your details or wait for the university to publish it.";
+                errorMsg.style.display = 'block';
+            } else {
+                errorMsg.innerHTML = "<b>Server Busy:</b> The university server is taking too long to respond. Please try again in a few minutes.";
+                errorMsg.style.display = 'block';
+            }
+
+            resetBtn();
+        });
+
+        function renderResultView(data, semNum, sessionString) {
+            searchView.style.display = 'none';
+            resultView.style.display = 'block';
+
+            const semOrdinal = ORDINAL_MAP[semNum];
+            const semRoman = ROMAN_MAP[semNum];
+
+            // Setup Header Labels
+            document.getElementById('lbl-exam-title').textContent = `B.Tech. ${semOrdinal} Semester Examination, ${sessionString.split('/')[1] || ''}`;
+            document.getElementById('lbl-sem-roman').textContent = semRoman;
+            document.getElementById('lbl-exam-month').textContent = sessionString;
+            document.getElementById('lbl-reg').textContent = data.redg_no;
+            document.getElementById('lbl-name').textContent = data.name;
+            document.getElementById('lbl-father').textContent = data.father_name;
+            document.getElementById('lbl-mother').textContent = data.mother_name;
+            document.getElementById('lbl-college').textContent = `${data.college_code} - ${data.college_name}`;
+            document.getElementById('lbl-course').textContent = `${data.course_code} - ${data.course}`;
+
+            // Handle Theory Marks
+            const theoryTbody = document.getElementById('theory-tbody');
+            if (data.theorySubjects && data.theorySubjects.length > 0) {
+                document.getElementById('theory-container').style.display = 'block';
+                theoryTbody.innerHTML = data.theorySubjects.map(sub => `
+                    <tr align="left">
+                        <td>${sub.code || '-'}</td><td>${sub.name || '-'}</td>
+                        <td align="center">${sub.ese || '-'}</td><td align="center">${sub.ia || '-'}</td>
+                        <td align="center">${sub.total || '-'}</td><td align="center">${sub.grade || '-'}</td>
+                        <td align="center">${sub.credit || '-'}</td>
+                    </tr>
+                `).join('');
+            } else {
+                document.getElementById('theory-container').style.display = 'none';
+            }
+
+            // Handle Practical Marks
+            const pracTbody = document.getElementById('practical-tbody');
+            if (data.practicalSubjects && data.practicalSubjects.length > 0) {
+                document.getElementById('practical-container').style.display = 'block';
+                pracTbody.innerHTML = data.practicalSubjects.map(sub => `
+                    <tr align="left">
+                        <td>${sub.code || '-'}</td><td>${sub.name || '-'}</td>
+                        <td align="center">${sub.ese || '-'}</td><td align="center">${sub.ia || '-'}</td>
+                        <td align="center">${sub.total || '-'}</td><td align="center">${sub.grade || '-'}</td>
+                        <td align="center">${sub.credit || '-'}</td>
+                    </tr>
+                `).join('');
+            } else {
+                document.getElementById('practical-container').style.display = 'none';
+            }
+
+            // SGPA / Remarks
+            const curSgpa = data.sgpa ? (data.sgpa[semNum - 1] || '0.00') : '0.00';
+            document.getElementById('lbl-sgpa').textContent = curSgpa;
+            document.getElementById('lbl-remarks').textContent = data.fail_any || 'N/A';
+            document.getElementById('lbl-remarks').style.color = data.fail_any === 'PASS' ? '#16a34a' : '#dc2626';
+            
+            // Provide a simulated date since API doesn't return publish date natively without scraping
+            document.getElementById('lbl-publish').textContent = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+            // SGPA History Builder
+            const histHeaders = [];
+            const histValues = [];
+            for (let i = 1; i <= 8; i++) {
+                histHeaders.push(`<th style="padding:5px; border:1px solid #a0a0a0; background:#f8f9fa;">${ROMAN_MAP[i]}</th>`);
+                const val = (data.sgpa && data.sgpa[i-1]) ? data.sgpa[i-1] : 'NA';
+                histValues.push(`<td style="padding:5px; border:1px solid #a0a0a0;">${val}</td>`);
+            }
+            histHeaders.push(`<th style="padding:5px; border:1px solid #a0a0a0; background:#f8f9fa;">Cur. CGPA</th>`);
+            histValues.push(`<td style="padding:5px; border:1px solid #a0a0a0; font-weight:bold;">${data.cgpa || 'NA'}</td>`);
+            
+            document.getElementById('sgpa-hist-header').innerHTML = histHeaders.join('');
+            document.getElementById('sgpa-hist-values').innerHTML = histValues.join('');
+
+            // Prep Hidden Flex Card
+            document.getElementById('flex-college-name').textContent = data.college_name;
+            document.getElementById('flex-sgpa').textContent = curSgpa;
+            document.getElementById('flex-status').textContent = data.fail_any || 'N/A';
+            document.getElementById('flex-status').style.backgroundColor = data.fail_any === 'PASS' ? '#22c55e' : '#ef4444';
+            document.getElementById('flex-name').textContent = data.name;
+            document.getElementById('flex-sem').textContent = `${semOrdinal} Semester`;
+            document.getElementById('flex-reg').textContent = `Reg: ${data.redg_no}`;
+        }
+
+        function goBackToSearch() {
+            resultView.style.display = 'none';
+            searchView.style.display = 'grid'; // Grid class
+        }
+
+        function searchAdjacentResult(offset) {
+            const currentReg = regInput.value.trim();
+            if (!currentReg) return;
+            
+            try {
+                // Use BigInt to safely perform math on large reg numbers
+                const nextReg = (BigInt(currentReg) + BigInt(offset)).toString();
+                regInput.value = nextReg;
+                checkLateralEntry(); 
+                
+                // Trigger visual reset and submit
+                goBackToSearch();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Slight delay to allow UI to render the search view before fetching
+                setTimeout(() => {
+                    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                }, 150);
+            } catch (e) {
+                console.error("Invalid registration number format.", e);
+            }
+        }
+
+        async function shareFlexCard() {
+            const flexElement = document.getElementById('flexCardCapture');
+            const status = document.getElementById('downloadStatus');
+            status.style.display = 'inline';
+            status.textContent = "Creating Status Card...";
+
+            try {
+                const canvas = await html2canvas(flexElement, { scale: 1, backgroundColor: '#0f172a' });
+                canvas.toBlob(async (blob) => {
+                    const file = new File([blob], "beu_result_status.png", { type: "image/png" });
+                    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({ files: [file], title: 'My BEU Result', text: 'Check out my result on BEU Hub!' });
+                            status.textContent = "Shared successfully!";
+                        } catch (err) {
+                            downloadImage(canvas);
+                            status.textContent = "Image Downloaded!";
+                        }
+                    } else {
+                        downloadImage(canvas);
+                        status.textContent = "Image Downloaded!";
+                    }
+                    setTimeout(() => { status.style.display = 'none'; }, 3000);
+                });
+            } catch (err) {
+                status.textContent = "Error generating card.";
+                status.style.color = 'red';
+                setTimeout(() => { status.style.display = 'none'; }, 3000);
+            }
+        }
+        function downloadImage(canvas) {
+            const link = document.createElement('a');
+            link.download = 'My_BEU_Result_Status.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // CGPA Calculator Logic
+        const cgpaModal = document.getElementById('cgpaModal');
+        const cgpaInputs = document.getElementById('cgpaInputs');
+        const cgpaResult = document.getElementById('cgpaResult');
+        let semCount = 0;
+
+        function addSemesterInput() {
+            semCount++;
+            const div = document.createElement('div');
+            div.className = 'flex gap-2 items-center text-white';
+            div.innerHTML = `
+                <span class="text-xs text-slate-400 w-12">Sem ${semCount}</span>
+                <input type="number" step="0.01" min="0" max="10" placeholder="SGPA" class="input-dark flex-1 px-3 py-2 rounded-lg text-sm cgpa-input">
+                <button class="text-red-400 hover:text-red-300 remove-sem"><i class="fas fa-trash text-sm pointer-events-none"></i></button>
+            `;
+            cgpaInputs.appendChild(div);
+            calculateCGPA();
+        }
+
+        cgpaInputs.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-sem')) {
+                e.target.closest('.flex').remove();
+                calculateCGPA();
+            }
+        });
+        cgpaInputs.addEventListener('input', calculateCGPA);
+
+        function calculateCGPA() {
+            const inputs = document.querySelectorAll('.cgpa-input');
+            let sum = 0, count = 0;
+            inputs.forEach(input => {
+                const val = parseFloat(input.value);
+                if (!isNaN(val) && val > 0) { sum += val; count++; }
+            });
+            cgpaResult.textContent = count > 0 ? (sum / count).toFixed(2) : '0.00';
+        }
+
+        document.getElementById('addSemBtn').addEventListener('click', addSemesterInput);
+        document.getElementById('cgpaCalcBtn').addEventListener('click', () => {
+            cgpaModal.classList.remove('hidden');
+            if (semCount === 0) { for (let i = 0; i < 3; i++) addSemesterInput(); }
+        });
+        document.getElementById('closeCgpa').addEventListener('click', () => cgpaModal.classList.add('hidden'));
+        cgpaModal.addEventListener('click', (e) => { if (e.target === cgpaModal) cgpaModal.classList.add('hidden'); });
+
+        // Anti-Inspect features kept as requested
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
