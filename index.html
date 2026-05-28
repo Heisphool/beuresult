@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   
+    
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -662,9 +662,60 @@
             loadHistory();
         }
 
+        // ============================================================================
+        // 🚀 SMART TOKEN FETCHER (NEW)
+        // ============================================================================
+        async function fetchToken() {
+            const tokenUrl = "https://beu-bih.ac.in/backend/v1/result/token";
+            
+            const routes = [
+                async () => {
+                    const res = await fetch(tokenUrl);
+                    const text = await res.text();
+                    return { text, ok: res.ok };
+                },
+                async () => {
+                    const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(tokenUrl)}`);
+                    const text = await res.text();
+                    return { text, ok: res.ok };
+                },
+                async () => {
+                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(tokenUrl)}`);
+                    const text = await res.text();
+                    return { text, ok: res.ok };
+                }
+            ];
+
+            for (let i = 0; i < routes.length; i++) {
+                try {
+                    const response = await routes[i]();
+                    if (response.ok && response.text) {
+                        try {
+                            const json = JSON.parse(response.text);
+                            if (json.token) return json.token;
+                        } catch(e) {
+                            if (response.text.length > 10) return response.text.trim();
+                        }
+                    }
+                } catch (err) {
+                    // silently try next route
+                }
+            }
+            return '';
+        }
+
         async function fetchResult(year, regNo, semRoman, examHeld) {
             const baseUrl = "https://www.beu-bih.ac.in/backend/v1/result/get-result";
             const params = new URLSearchParams({ year, redg_no: regNo, semester: semRoman, exam_held: examHeld });
+            
+            // 🚀 GRAB AND ATTACH TOKEN BEFORE FETCHING RESULT
+            const token = await fetchToken();
+            if (token) {
+                params.append('token', token);
+            } else {
+                console.warn("Could not fetch token, attempting request anyway...");
+            }
+
             const targetUrl = `${baseUrl}?${params.toString()}`;
             
             // Try direct connection first, then gracefully fall back to alternative routes
@@ -692,11 +743,13 @@
                 try {
                     const json = await routes[i]();
                     if (json) {
-                        // Check if the university returned valid data
                         if (json.data && json.data.redg_no) {
                             return { status: 'SUCCESS', data: json.data, session: examHeld };
                         } else if (json.message && json.message.toLowerCase().includes("not found")) {
                             return { status: 'NOT_FOUND_FOR_SESSION' };
+                        } else if (json.message && json.message.toLowerCase().includes("token")) {
+                            console.warn("Token expired/invalid via proxy route " + i);
+                            continue; // Try next route if token failed here
                         }
                     }
                 } catch (err) {
@@ -759,7 +812,7 @@
                 errorMsg.innerHTML = "<b>Result Not Found.</b> Please check your details or wait for the university to publish it.";
                 errorMsg.style.display = 'block';
             } else {
-                errorMsg.innerHTML = "<b>Server Busy:</b> The university server is taking too long to respond. Please try again in a few minutes.";
+                errorMsg.innerHTML = "<b>Server Busy or Token Expired:</b> The university server is taking too long to respond, or token verification failed via proxy. Please try again.";
                 errorMsg.style.display = 'block';
             }
 
