@@ -52,60 +52,6 @@
     <meta name="twitter:description" content="Official portal to check Bihar Engineering University (BEU) B.Tech results. View live status of 1st to 8th semester results.">
     <meta name="twitter:image" content="https://phoolbabu.space/uploads/phoolbabu.png">
 
-    <!-- 🚀 ADVANCED SCHEMA MARKUP FOR RICH SNIPPETS (WebPage + FAQPage) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebPage",
-          "@id": "https://beuresult-xi.vercel.app//#webpage",
-          "url": "https://beuresult-xi.vercel.app//",
-          "name": "BEU Result 2025 (Live): Check B.Tech 1st to 8th Sem Result",
-          "description": "Official portal to check Bihar Engineering University (BEU) B.Tech semester results instantly. Get direct BEU result link.",
-          "inLanguage": "en-IN",
-          "publisher": {
-            "@type": "Organization",
-            "name": "BEU Result Portal",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://beuresult-xi.vercel.app/beuhub-192.png"
-            }
-          }
-        },
-        {
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "How to check BEU Result 2025 online?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "To check your BEU B.Tech result, enter your 11-digit Registration Number, select your semester, and click check result to view your marksheet."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What is the official website for BEU results?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "The official website for Bihar Engineering University is beu.ac.in. However, students can check their fast BEU results directly through this portal."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What are the passing marks for BEU B.Tech?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "As per BEU guidelines, students need a minimum of 35% overall to pass. For theory, 24.5 marks out of 70 are required in the End Semester Examination (ESE)."
-              }
-            }
-          ]
-        }
-      ]
-    }
-    </script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -129,16 +75,6 @@
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'slide-up': 'slideUp 0.5s ease-out',
                         'fade-in': 'fadeIn 0.3s ease-in',
-                    },
-                    keyframes: {
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' }
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' }
-                        }
                     }
                 }
             }
@@ -200,7 +136,6 @@
         }
         .float-animation { animation: float 3s ease-in-out infinite; }
 
-        /* Scoped Result View CSS to prevent Tailwind overrides */
         #result-view-container { display: none; width: 100%; min-height: 100vh; background-color: #d3d3d3; color: #000; padding: 20px 0; font-family: Arial, sans-serif;}
         #result-wrapper { max-width: 960px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative;}
         .res-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
@@ -212,7 +147,6 @@
         .btn-action { padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; color: white; display: inline-flex; align-items: center; gap: 8px; transition: opacity 0.2s;}
         .btn-action:hover { opacity: 0.9; }
 
-        /* Flex Card (Hidden by default) */
         #flex-card-container { position: fixed; left: -9999px; top: 0; width: 1080px; height: 1920px; z-index: 9999; }
         .flex-card { width: 100%; height: 100%; background: radial-gradient(circle at top right, #1e293b, #0f172a); display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 80px 40px; box-sizing: border-box; color: white; font-family: 'Segoe UI', sans-serif; border: 20px solid #334155; }
         .flex-title { font-size: 40px; letter-spacing: 5px; text-transform: uppercase; color: #94a3b8; font-weight: bold; margin-bottom: 20px; text-align: center;}
@@ -228,30 +162,18 @@
         
         #error-message { display: none; background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem; text-align: center; font-weight: 500;}
 
-        /* Print Specific Styles for A4 Single Page */
         @media print {
             @page { size: A4 portrait; margin: 10mm; }
             body { background: #fff !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; }
             body * { visibility: hidden; }
             #printarea, #printarea * { visibility: visible; }
-            #printarea { 
-                position: absolute; 
-                left: 0; 
-                top: 0; 
-                width: 100%; 
-                margin: 0; 
-                padding: 0 !important; 
-                min-height: auto !important;
-                background: white !important;
-            }
-            /* Compress tables to guarantee 1-page fit */
+            #printarea { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0 !important; min-height: auto !important; background: white !important; }
             .res-table { margin-bottom: 8px !important; }
             .res-table th, .res-table td { padding: 4px !important; font-size: 11px !important; }
             .res-watermark { opacity: 0.05 !important; width: 350px !important; height: 350px !important; }
             #lbl-exam-title { font-size: 14px !important; }
             .res-content p { font-size: 18px !important; margin-bottom: 5px !important; }
             h4, ul { font-size: 10px !important; margin-bottom: 2px !important; }
-            /* Force hide UI buttons and containers */
             .no-print, #themeToggle, #cgpaCalcBtn, #search-view, #flex-card-container { display: none !important; }
             #result-wrapper { box-shadow: none !important; padding: 0 !important; margin: 0 !important; border: none !important; }
         }
@@ -259,7 +181,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-center items-center selection:bg-blue-500 selection:text-white relative overflow-x-hidden">
 
-    <button id="themeToggle" class="fixed top-4 right-4 z-50 w-12 h-12 rounded-full glass-panel flex items-center justify-center hover:scale-110 transition-transform text-white" aria-label="Toggle Theme">
+    <button id="themeToggle" class="fixed top-4 right-4 z-50 w-12 h-12 rounded-full glass-panel flex items-center justify-center hover:scale-110 transition-transform text-white">
         <i class="fas fa-moon" id="themeIcon"></i>
     </button>
 
@@ -268,9 +190,7 @@
         <span class="hidden sm:inline">CGPA Calc</span>
     </button>
 
-    <!-- ========================================== -->
-    <!-- VIEW 1: SEARCH PORTAL -->
-    <!-- ========================================== -->
+    <!-- SEARCH PORTAL -->
     <div id="search-view" class="w-full flex-1 flex flex-col justify-center items-center">
         <div class="w-full max-w-6xl z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center p-4 py-12 relative">
             <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[128px] opacity-20 animate-pulse-slow pointer-events-none"></div>
@@ -300,7 +220,7 @@
                     <div class="glass-panel p-5 rounded-xl border-l-4 border-purple-500 hover:bg-slate-800/80 transition-colors cursor-pointer float-animation" style="animation-delay: 0.5s">
                         <i class="fas fa-shield-alt text-2xl text-purple-400 mb-2"></i>
                         <h3 class="text-2xl font-bold text-white">Secure</h3>
-                        <p class="text-xs text-slate-400 uppercase tracking-wide">Client-Side Process</p>
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Backend Process</p>
                     </div>
                 </div>
 
@@ -399,9 +319,7 @@
         </footer>
     </div>
 
-    <!-- ========================================== -->
-    <!-- VIEW 2: RESULT RENDER (Classic View)       -->
-    <!-- ========================================== -->
+    <!-- RESULT RENDER -->
     <div id="result-view-container">
         <div id="result-wrapper">
             <div class="flex flex-wrap justify-between items-center gap-4 mb-6 pb-4 border-b border-gray-300 no-print">
@@ -430,7 +348,6 @@
 
             <!-- Print Area -->
             <div id="printarea" style="position:relative; min-height: 800px; padding: 20px; background: white;">
-                <!-- Updated watermark text for frontend requirement -->
                 <div class="res-watermark"><div>BEU<br>RESULT</div></div>
                 
                 <div class="res-content">
@@ -523,7 +440,6 @@
                 <div class="flex-reg" id="flex-reg">Reg: ---</div>
             </div>
             <div class="flex-footer">
-                <!-- Updated branding text for frontend requirement -->
                 <div style="font-size: 40px; font-weight: bold; color: #3b82f6; letter-spacing: 2px;">BEU RESULT PORTAL</div>
                 <div style="font-size: 25px; color: #64748b; margin-top: 10px;">Official Semester Marks</div>
             </div>
@@ -553,11 +469,6 @@
     </div>
 
     <script>
-        // ============================================================================
-        // CONFIGURATION SECTION: EXAM SESSIONS (MONTH/YEAR)
-        // Add new batches/semesters here as exams are conducted.
-        // Format: "BatchYear_SemesterNumber": "Month/Year"
-        // ============================================================================
         const EXAM_CONFIG = {
             "2025_1": "January/2026",
             "2024_1": "May/2025",
@@ -571,13 +482,10 @@
             "2022_6": "November/2025",
             "2022_7": "February/2026"
         };
-        // ============================================================================
 
-        // Utility: Roman Numerals
         const ROMAN_MAP = { 1:'I', 2:'II', 3:'III', 4:'IV', 5:'V', 6:'VI', 7:'VII', 8:'VIII' };
         const ORDINAL_MAP = { 1:'1st', 2:'2nd', 3:'3rd', 4:'4th', 5:'5th', 6:'6th', 7:'7th', 8:'8th' };
 
-        // DOM Elements
         const searchView = document.getElementById('search-view');
         const resultView = document.getElementById('result-view-container');
         const form = document.getElementById('resultForm');
@@ -586,7 +494,6 @@
         const btnIcon = document.getElementById('btnIcon');
         const errorMsg = document.getElementById('error-message');
 
-        // Form fields
         const semInput = document.getElementById('semester');
         const regInput = document.getElementById('RegNo');
         const batchInput = document.getElementById('batch');
@@ -594,7 +501,6 @@
         const lateralBadge = document.getElementById('lateralBadge');
         const batchContainer = document.getElementById('batchContainer');
 
-        // Theme Handling
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const savedTheme = localStorage.getItem('beu_theme') || 'dark';
@@ -609,7 +515,6 @@
             localStorage.setItem('beu_theme', isLight ? 'light' : 'dark');
         });
 
-        // Lateral Entry Detection
         function checkLateralEntry() {
             const val = regInput.value;
             if (val.length >= 9 && val.charAt(8) === '9') {
@@ -622,7 +527,6 @@
         }
         regInput.addEventListener('input', checkLateralEntry);
 
-        // History Management
         function loadHistory() {
             const history = JSON.parse(localStorage.getItem('beu_history') || '[]');
             const recentSearches = document.getElementById('recentSearches');
@@ -663,98 +567,26 @@
         }
 
         // ============================================================================
-        // 🚀 SMART TOKEN FETCHER (NEW)
+        // 🚀 NEW FETCH RESULT - CALLING OUR CUSTOM PHP API
         // ============================================================================
-        async function fetchToken() {
-            const tokenUrl = "https://beu-bih.ac.in/backend/v1/result/token";
-            
-            const routes = [
-                async () => {
-                    const res = await fetch(tokenUrl);
-                    const text = await res.text();
-                    return { text, ok: res.ok };
-                },
-                async () => {
-                    const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(tokenUrl)}`);
-                    const text = await res.text();
-                    return { text, ok: res.ok };
-                },
-                async () => {
-                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(tokenUrl)}`);
-                    const text = await res.text();
-                    return { text, ok: res.ok };
-                }
-            ];
-
-            for (let i = 0; i < routes.length; i++) {
-                try {
-                    const response = await routes[i]();
-                    if (response.ok && response.text) {
-                        try {
-                            const json = JSON.parse(response.text);
-                            if (json.token) return json.token;
-                        } catch(e) {
-                            if (response.text.length > 10) return response.text.trim();
-                        }
-                    }
-                } catch (err) {
-                    // silently try next route
-                }
-            }
-            return '';
-        }
-
         async function fetchResult(year, regNo, semRoman, examHeld) {
-            const baseUrl = "https://www.beu-bih.ac.in/backend/v1/result/get-result";
-            const params = new URLSearchParams({ year, redg_no: regNo, semester: semRoman, exam_held: examHeld });
+            // Humara apna banaya hua API jo Cookie + Token backend me handle karega
+            // Make sure api.php is hosted on the same server, or use its full URL
+            const apiUrl = `api.php?year=${year}&redg_no=${regNo}&semester=${semRoman}&exam_held=${examHeld}`;
             
-            // 🚀 GRAB AND ATTACH TOKEN BEFORE FETCHING RESULT
-            const token = await fetchToken();
-            if (token) {
-                params.append('token', token);
-            } else {
-                console.warn("Could not fetch token, attempting request anyway...");
-            }
-
-            const targetUrl = `${baseUrl}?${params.toString()}`;
-            
-            // Try direct connection first, then gracefully fall back to alternative routes
-            const routes = [
-                async () => {
-                    const res = await fetch(targetUrl);
-                    return await res.json();
-                },
-                async () => {
-                    const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`);
-                    return await res.json();
-                },
-                async () => {
-                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`);
-                    return await res.json();
-                },
-                async () => {
-                    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`);
-                    const data = await res.json();
-                    return JSON.parse(data.contents);
-                }
-            ];
-            
-            for (let i = 0; i < routes.length; i++) {
-                try {
-                    const json = await routes[i]();
-                    if (json) {
-                        if (json.data && json.data.redg_no) {
-                            return { status: 'SUCCESS', data: json.data, session: examHeld };
-                        } else if (json.message && json.message.toLowerCase().includes("not found")) {
-                            return { status: 'NOT_FOUND_FOR_SESSION' };
-                        } else if (json.message && json.message.toLowerCase().includes("token")) {
-                            console.warn("Token expired/invalid via proxy route " + i);
-                            continue; // Try next route if token failed here
-                        }
+            try {
+                const res = await fetch(apiUrl);
+                const json = await res.json();
+                
+                if (json) {
+                    if (json.data && json.data.redg_no) {
+                        return { status: 'SUCCESS', data: json.data, session: examHeld };
+                    } else if (json.message && json.message.toLowerCase().includes("not found")) {
+                        return { status: 'NOT_FOUND_FOR_SESSION' };
                     }
-                } catch (err) {
-                    // Silently move to the next route if one fails
                 }
+            } catch (err) {
+                console.error("Fetch Error: ", err);
             }
             return { status: 'SERVER_BUSY' };
         }
@@ -773,7 +605,6 @@
             const semester = parseInt(semInput.value);
             const isYb = isYbInput.checked;
             
-            // Derive API parameters
             const apiYear = 2000 + parseInt(regNo.substring(0, 2)); 
             let batchYear = apiYear;
             
@@ -803,6 +634,8 @@
             }
 
             btnText.textContent = `Fetching Result...`;
+            
+            // Ab seedha result fetch hoga apne backend API se bina Proxy wale jhanjhat ke!
             const response = await fetchResult(apiYear, regNo, semRoman, configuredSession);
             
             if (response.status === 'SUCCESS') {
@@ -812,7 +645,7 @@
                 errorMsg.innerHTML = "<b>Result Not Found.</b> Please check your details or wait for the university to publish it.";
                 errorMsg.style.display = 'block';
             } else {
-                errorMsg.innerHTML = "<b>Server Busy or Token Expired:</b> The university server is taking too long to respond, or token verification failed via proxy. Please try again.";
+                errorMsg.innerHTML = "<b>Server Busy:</b> The university server is taking too long to respond. Please try again.";
                 errorMsg.style.display = 'block';
             }
 
@@ -826,7 +659,6 @@
             const semOrdinal = ORDINAL_MAP[semNum];
             const semRoman = ROMAN_MAP[semNum];
 
-            // Setup Header Labels
             document.getElementById('lbl-exam-title').textContent = `B.Tech. ${semOrdinal} Semester Examination, ${sessionString.split('/')[1] || ''}`;
             document.getElementById('lbl-sem-roman').textContent = semRoman;
             document.getElementById('lbl-exam-month').textContent = sessionString;
@@ -837,7 +669,6 @@
             document.getElementById('lbl-college').textContent = `${data.college_code} - ${data.college_name}`;
             document.getElementById('lbl-course').textContent = `${data.course_code} - ${data.course}`;
 
-            // Handle Theory Marks
             const theoryTbody = document.getElementById('theory-tbody');
             if (data.theorySubjects && data.theorySubjects.length > 0) {
                 document.getElementById('theory-container').style.display = 'block';
@@ -853,7 +684,6 @@
                 document.getElementById('theory-container').style.display = 'none';
             }
 
-            // Handle Practical Marks
             const pracTbody = document.getElementById('practical-tbody');
             if (data.practicalSubjects && data.practicalSubjects.length > 0) {
                 document.getElementById('practical-container').style.display = 'block';
@@ -869,16 +699,13 @@
                 document.getElementById('practical-container').style.display = 'none';
             }
 
-            // SGPA / Remarks
             const curSgpa = data.sgpa ? (data.sgpa[semNum - 1] || '0.00') : '0.00';
             document.getElementById('lbl-sgpa').textContent = curSgpa;
             document.getElementById('lbl-remarks').textContent = data.fail_any || 'N/A';
             document.getElementById('lbl-remarks').style.color = data.fail_any === 'PASS' ? '#16a34a' : '#dc2626';
             
-            // Provide a simulated date since API doesn't return publish date natively without scraping
             document.getElementById('lbl-publish').textContent = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
-            // SGPA History Builder
             const histHeaders = [];
             const histValues = [];
             for (let i = 1; i <= 8; i++) {
@@ -892,7 +719,6 @@
             document.getElementById('sgpa-hist-header').innerHTML = histHeaders.join('');
             document.getElementById('sgpa-hist-values').innerHTML = histValues.join('');
 
-            // Prep Hidden Flex Card
             document.getElementById('flex-college-name').textContent = data.college_name;
             document.getElementById('flex-sgpa').textContent = curSgpa;
             document.getElementById('flex-status').textContent = data.fail_any || 'N/A';
@@ -904,7 +730,6 @@
 
         function goBackToSearch() {
             resultView.style.display = 'none';
-            // Because our search view has flex classes on it, we reset its display properly
             searchView.style.display = ''; 
         }
 
@@ -913,16 +738,13 @@
             if (!currentReg) return;
             
             try {
-                // Use BigInt to safely perform math on large reg numbers
                 const nextReg = (BigInt(currentReg) + BigInt(offset)).toString();
                 regInput.value = nextReg;
                 checkLateralEntry(); 
                 
-                // Trigger visual reset and submit
                 goBackToSearch();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 
-                // Slight delay to allow UI to render the search view before fetching
                 setTimeout(() => {
                     form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
                 }, 150);
@@ -968,7 +790,6 @@
             link.click();
         }
 
-        // CGPA Calculator Logic
         const cgpaModal = document.getElementById('cgpaModal');
         const cgpaInputs = document.getElementById('cgpaInputs');
         const cgpaResult = document.getElementById('cgpaResult');
@@ -1013,7 +834,6 @@
         document.getElementById('closeCgpa').addEventListener('click', () => cgpaModal.classList.add('hidden'));
         cgpaModal.addEventListener('click', (e) => { if (e.target === cgpaModal) cgpaModal.classList.add('hidden'); });
 
-        // Anti-Inspect features kept as requested
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.onkeydown = function(e) {
             if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
