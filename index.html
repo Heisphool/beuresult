@@ -52,6 +52,60 @@
     <meta name="twitter:description" content="Official portal to check Bihar Engineering University (BEU) B.Tech results. View live status of 1st to 8th semester results.">
     <meta name="twitter:image" content="https://phoolbabu.space/uploads/phoolbabu.png">
 
+    <!-- 🚀 ADVANCED SCHEMA MARKUP FOR RICH SNIPPETS -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "@id": "https://beuresult-xi.vercel.app//#webpage",
+          "url": "https://beuresult-xi.vercel.app//",
+          "name": "BEU Result 2025 (Live): Check B.Tech 1st to 8th Sem Result",
+          "description": "Official portal to check Bihar Engineering University (BEU) B.Tech semester results instantly. Get direct BEU result link.",
+          "inLanguage": "en-IN",
+          "publisher": {
+            "@type": "Organization",
+            "name": "BEU Result Portal",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://beuresult-xi.vercel.app/beuhub-192.png"
+            }
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How to check BEU Result 2025 online?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "To check your BEU B.Tech result, enter your 11-digit Registration Number, select your semester, and click check result to view your marksheet."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the official website for BEU results?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The official website for Bihar Engineering University is beu.ac.in. However, students can check their fast BEU results directly through this portal."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What are the passing marks for BEU B.Tech?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "As per BEU guidelines, students need a minimum of 35% overall to pass. For theory, 24.5 marks out of 70 are required in the End Semester Examination (ESE)."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -214,13 +268,13 @@
                 <div class="grid grid-cols-2 gap-4 mt-8">
                     <div class="glass-panel p-5 rounded-xl border-l-4 border-blue-500 hover:bg-slate-800/80 transition-colors cursor-pointer float-animation">
                         <i class="fas fa-bolt text-2xl text-blue-400 mb-2"></i>
-                        <h3 class="text-2xl font-bold text-white">Direct</h3>
-                        <p class="text-xs text-slate-400 uppercase tracking-wide">University Link</p>
+                        <h3 class="text-2xl font-bold text-white">Fast API</h3>
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Google Infrastructure</p>
                     </div>
                     <div class="glass-panel p-5 rounded-xl border-l-4 border-purple-500 hover:bg-slate-800/80 transition-colors cursor-pointer float-animation" style="animation-delay: 0.5s">
                         <i class="fas fa-shield-alt text-2xl text-purple-400 mb-2"></i>
                         <h3 class="text-2xl font-bold text-white">Secure</h3>
-                        <p class="text-xs text-slate-400 uppercase tracking-wide">Backend Process</p>
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Bypass Blocks</p>
                     </div>
                 </div>
 
@@ -571,24 +625,15 @@
         // ============================================================================
         async function fetchResult(year, regNo, semRoman, examHeld) {
             
-            // 👇 REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL 👇
-            const gasWebAppUrl = "// 👇 REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL 👇
-const gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzYV2sDFXbwuVEg0O8NfvokvuKbGJfbeTiv2xFxhv4FKNe-pXhFePdAR4K79YvOhMhfPw/exec";"; 
+            // USING THE WORKING GOOGLE APPS SCRIPT WEB APP URL
+            const gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzYV2sDFXbwuVEg0O8NfvokvuKbGJfbeTiv2xFxhv4FKNe-pXhFePdAR4K79YvOhMhfPw/exec"; 
             
-            // Check if placeholder is still present
-            if (gasWebAppUrl.includes("YOUR-URL-HERE")) {
-                alert("Developer Error: Please replace 'gasWebAppUrl' with your actual Google Apps Script Web App URL in index.html!");
-                console.error("Placeholder URL detected.");
-                return { status: 'SERVER_BUSY' };
-            }
-
             const apiUrl = `${gasWebAppUrl}?year=${year}&redg_no=${regNo}&semester=${semRoman}&exam_held=${examHeld}`;
             
             try {
                 // Fetch directly from your GAS backend. (GAS handles CORS automatically if deployed correctly)
                 const res = await fetch(apiUrl, { redirect: "follow", mode: "cors" });
                 
-                // Hum pehle text read kar rahe hain taaki JSON parse krte time crash na ho
                 const text = await res.text(); 
                 
                 try {
@@ -608,7 +653,6 @@ const gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzYV2sDFXbwuVEg0O8
                 }
             } catch (err) {
                 console.error("Fetch/Network Error: ", err);
-                // Agar yahan error aaya toh mostly Ad-blocker ya internet ka issue hoga.
             }
             return { status: 'SERVER_BUSY' };
         }
@@ -657,7 +701,6 @@ const gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzYV2sDFXbwuVEg0O8
 
             btnText.textContent = `Fetching Result...`;
             
-            // Ab seedha result fetch hoga apne backend API se bina Proxy wale jhanjhat ke!
             const response = await fetchResult(apiYear, regNo, semRoman, configuredSession);
             
             if (response.status === 'SUCCESS') {
@@ -667,7 +710,7 @@ const gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzYV2sDFXbwuVEg0O8
                 errorMsg.innerHTML = "<b>Result Not Found.</b> Please check your details or wait for the university to publish it.";
                 errorMsg.style.display = 'block';
             } else {
-                errorMsg.innerHTML = "<b>Server Busy:</b> The university server is taking too long to respond. Please try again.";
+                errorMsg.innerHTML = "<b>Server Error:</b> The API Server failed to respond correctly. Please try again.";
                 errorMsg.style.display = 'block';
             }
 
