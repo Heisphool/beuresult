@@ -567,26 +567,47 @@
         }
 
         // ============================================================================
-        // 🚀 NEW FETCH RESULT - CALLING OUR CUSTOM PHP API
+        // 🚀 FETCH RESULT - CALLING GOOGLE APPS SCRIPT BACKEND (Works on GitHub Pages)
         // ============================================================================
         async function fetchResult(year, regNo, semRoman, examHeld) {
-            // Humara apna banaya hua API jo Cookie + Token backend me handle karega
-            // Make sure api.php is hosted on the same server, or use its full URL
-            const apiUrl = `api.php?year=${year}&redg_no=${regNo}&semester=${semRoman}&exam_held=${examHeld}`;
+            
+            // 👇 REPLACE THIS WITH YOUR GOOGLE APPS SCRIPT WEB APP URL 👇
+            const gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzXy-YOUR-URL-HERE/exec"; 
+            
+            // Check if placeholder is still present
+            if (gasWebAppUrl.includes("YOUR-URL-HERE")) {
+                alert("Developer Error: Please replace 'gasWebAppUrl' with your actual Google Apps Script Web App URL in index.html!");
+                console.error("Placeholder URL detected.");
+                return { status: 'SERVER_BUSY' };
+            }
+
+            const apiUrl = `${gasWebAppUrl}?year=${year}&redg_no=${regNo}&semester=${semRoman}&exam_held=${examHeld}`;
             
             try {
-                const res = await fetch(apiUrl);
-                const json = await res.json();
+                // Fetch directly from your GAS backend. (GAS handles CORS automatically if deployed correctly)
+                const res = await fetch(apiUrl, { redirect: "follow", mode: "cors" });
                 
-                if (json) {
-                    if (json.data && json.data.redg_no) {
-                        return { status: 'SUCCESS', data: json.data, session: examHeld };
-                    } else if (json.message && json.message.toLowerCase().includes("not found")) {
-                        return { status: 'NOT_FOUND_FOR_SESSION' };
+                // Hum pehle text read kar rahe hain taaki JSON parse krte time crash na ho
+                const text = await res.text(); 
+                
+                try {
+                    const json = JSON.parse(text);
+                    if (json) {
+                        if (json.data && json.data.redg_no) {
+                            return { status: 'SUCCESS', data: json.data, session: examHeld };
+                        } else if (json.message && json.message.toLowerCase().includes("not found")) {
+                            return { status: 'NOT_FOUND_FOR_SESSION' };
+                        } else if (json.status && (json.status === 400 || json.status === 500)) {
+                            console.error("Backend Error:", json.message);
+                        }
                     }
+                } catch (parseError) {
+                    console.error("JSON Parse Failed. Backend returned HTML instead of JSON. Response snippet:", text.substring(0, 150) + "...");
+                    alert("Backend Error: Aapka Google Apps Script 'Anyone' ki jagah login mang raha hai. Kripya Apps Script ko 'Who has access: Anyone' ke sath redeploy karein.");
                 }
             } catch (err) {
-                console.error("Fetch Error: ", err);
+                console.error("Fetch/Network Error: ", err);
+                // Agar yahan error aaya toh mostly Ad-blocker ya internet ka issue hoga.
             }
             return { status: 'SERVER_BUSY' };
         }
