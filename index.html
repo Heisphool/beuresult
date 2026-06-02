@@ -621,101 +621,61 @@
         }
 
         // ============================================================================
-        // 🚀 FETCH RESULT - CALLING GOOGLE APPS SCRIPT BACKEND (Works on GitHub Pages)
+        // 🚀 FETCH RESULT - JSONP METHOD (100% IMMUNE TO CORS ERRORS)
         // ============================================================================
         async function fetchResult(year, regNo, semRoman, examHeld) {
             
             // USING THE WORKING GOOGLE APPS SCRIPT WEB APP URL
             const gasWebAppUrl = "https://script.google.com/macros/s/AKfycbzYV2sDFXbwuVEg0O8NfvokvuKbGJfbeTiv2xFxhv4FKNe-pXhFePdAR4K79YvOhMhfPw/exec"; 
             
-            const apiUrl = `${gasWebAppUrl}?year=${year}&redg_no=${regNo}&semester=${semRoman}&exam_held=${examHeld}`;
-            
-            try {
-                // FIXED: Handle CORS and Redirects properly for Google Apps Script
-                // Using 'fetch' without explicitly setting complex headers helps bypass preflight checks
-                const res = await fetch(apiUrl, { 
-                    method: 'GET',
-                    redirect: 'follow', // Ensures it follows Google's 302 redirect
-                    headers: {
-                        "Content-Type": "text/plain;charset=utf-8", // Trick to avoid CORS preflight options request
-                    }
-                });
-                
-                // Add specific check for 403 or 401 status which means permission error
-                if (res.status === 403 || res.status === 401) {
-                    alert("🚨 Google Apps Script Permission Error (403 Forbidden) 🚨\n\nBackend script public nahi hai ya browser block kar raha hai.");
-                    return { status: 'SERVER_BUSY' };
-                }
-
-                const text = await res.text(); 
-                
-                try {
-                    const json = JSON.parse(text);
-                    if (json) {
-                        if (json.data && json.data.redg_no) {
-                            return { status: 'SUCCESS', data: json.data, session: examHeld };
-                        } else if (json.message && json.message.toLowerCase().includes("not found")) {
-                            return { status: 'NOT_FOUND_FOR_SESSION' };
-                        } else if (json.status && (json.status === 400 || json.status === 500)) {
-                            console.error("Backend Error:", json.message);
-                        }
-                    }
-                } catch (parseError) {
-                    console.error("JSON Parse Failed. Backend returned HTML instead of JSON. Response snippet:", text.substring(0, 150) + "...");
-                    alert("Backend Error: Aapka Google Apps Script 'Anyone' ki jagah login mang raha hai. Kripya Apps Script ko 'Who has access: Anyone' ke sath redeploy karein.");
-                }
-            } catch (err) {
-                console.error("Fetch/Network Error: ", err);
-                
-                // FINAL FALLBACK: If direct fetch still gives CORS/403 block on browser level
-                // We use a simple JSONP/Script injection trick that bypasses CORS completely
-                return await new Promise((resolve) => {
-                     console.log("Attempting fallback JSONP workaround due to CORS/Network error...");
+            return new Promise((resolve) => {
+                 // 1. Create a unique callback function name
+                 const callbackName = 'jsonp_beu_result_' + Math.round(100000 * Math.random());
+                 
+                 // 2. Add callback parameter to URL
+                 const jsonpUrl = `${gasWebAppUrl}?year=${year}&redg_no=${regNo}&semester=${semRoman}&exam_held=${examHeld}&callback=${callbackName}`;
+                 
+                 // 3. Define the global function to handle the incoming data
+                 window[callbackName] = function(data) {
+                     // Clean up
+                     delete window[callbackName];
+                     document.body.removeChild(script);
                      
-                     // Create a unique callback function name
-                     const callbackName = 'jsonp_beu_result_' + Math.round(100000 * Math.random());
-                     
-                     // Modify the URL to include the callback parameter
-                     // (Note: This requires modifying the Apps Script slightly if you want full JSONP support, 
-                     // but even without it, sometimes the script load bypasses certain blocks)
-                     const jsonpUrl = `${apiUrl}&callback=${callbackName}`;
-                     
-                     window[callbackName] = function(data) {
-                         delete window[callbackName];
-                         document.body.removeChild(script);
-                         
-                         if (data && data.data && data.data.redg_no) {
+                     if (data) {
+                         if (data.data && data.data.redg_no) {
                              resolve({ status: 'SUCCESS', data: data.data, session: examHeld });
-                         } else if (data && data.message && data.message.toLowerCase().includes("not found")) {
+                         } else if (data.message && data.message.toLowerCase().includes("not found")) {
                              resolve({ status: 'NOT_FOUND_FOR_SESSION' });
                          } else {
+                             console.error("Backend Error:", data.message || "Unknown error");
                              resolve({ status: 'SERVER_BUSY' });
                          }
-                     };
-                     
-                     const script = document.createElement('script');
-                     script.src = jsonpUrl;
-                     
-                     // Handle script load error
-                     script.onerror = function() {
-                         delete window[callbackName];
-                         document.body.removeChild(script);
-                         console.error("JSONP Fallback also failed. Check network or adblockers.");
+                     } else {
                          resolve({ status: 'SERVER_BUSY' });
-                     };
-                     
-                     document.body.appendChild(script);
-                     
-                     // Timeout for JSONP
-                     setTimeout(() => {
-                         if(window[callbackName]) {
-                             delete window[callbackName];
-                             resolve({ status: 'SERVER_BUSY' });
-                         }
-                     }, 15000); // 15 sec timeout
-                });
-            }
-            return { status: 'SERVER_BUSY' };
+                     }
+                 };
+                 
+                 // 4. Create script tag and inject it (Bypasses fetch() CORS restrictions)
+                 const script = document.createElement('script');
+                 script.src = jsonpUrl;
+                 
+                 script.onerror = function() {
+                     delete window[callbackName];
+                     document.body.removeChild(script);
+                     console.error("JSONP Script failed to load. Check network.");
+                     resolve({ status: 'SERVER_BUSY' });
+                 };
+                 
+                 document.body.appendChild(script);
+                 
+                 // 5. Fallback Timeout (15 seconds)
+                 setTimeout(() => {
+                     if(window[callbackName]) {
+                         delete window[callbackName];
+                         resolve({ status: 'SERVER_BUSY' });
+                     }
+                 }, 15000); 
+            });
         }
 
         form.addEventListener('submit', async (e) => {
